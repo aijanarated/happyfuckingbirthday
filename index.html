@@ -1,1 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE MOST CHAOTIC BIRTHDAY EVER</title>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Permanent+Marker&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: "Baloo 2", cursive;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.8) 0 3px, transparent 4px),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,.7) 0 2px, transparent 3px),
+        linear-gradient(135deg, #ff6ec7, #8c7bff, #54d7ff, #72e68c);
+    background-size: 180px 180px, 230px 230px, 100% 100%;
+    color: #222;
+    transition: background 1s ease;
+}
+
+/* -------------------- GENERAL -------------------- */
+
+.screen {
+    min-height: 100vh;
+    width: 100%;
+    display: none;
+    position: relative;
+    overflow: hidden;
+    padding: 30px 20px;
+}
+
+.screen.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* -------------------- FLOATING DECORATIONS -------------------- */
+
+.decorations {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.balloon {
+    position: absolute;
+    width: 65px;
+    height: 82px;
+    border-radius: 50% 50% 48% 48%;
+    animation: floatBalloon linear infinite;
+    filter: drop-shadow(5px 8px 4px rgba(0,0,0,.15));
+}
+
+.balloon::before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 12px solid currentColor;
+}
+
+.balloon::after {
+    content: "";
+    position: absolute;
+    top: 78px;
+    left: 50%;
+    width: 2px;
+    height: 160px;
+    background: rgba(0,0,0,.25);
+    transform: translateX(-50%);
+}
+
+.balloon:nth-child(1) {
+    background: #ff3b81;
+    color: #ff3b81;
+    left: 4%;
+    bottom: -150px;
+    animation-duration: 12s;
+}
+
+.balloon:nth-child(2) {
+    background: #ffe047;
+    color: #ffe047;
+    left: 18%;
+    bottom: -200px;
+    animation-duration: 15s;
+    animation-delay: 2s;
+}
+
+.balloon:nth-child(3) {
+    background: #54d7ff;
+    color: #54d7ff;
+    right: 15%;
+    bottom: -180px;
+    animation-duration: 13s;
+    animation-delay: 4s;
+}
+
+.balloon:nth-child(4) {
+    background: #a86cff;
+    color: #a86cff;
+    right: 4%;
+    bottom: -120px;
+    animation-duration: 16s;
+    animation-delay: 1s;
+}
+
+@keyframes floatBalloon {
+    0% {
+        transform: translateY(0) rotate(-8deg);
+    }
+    50% {
+        transform: translateY(-55vh) rotate(8deg);
+    }
+    100% {
+        transform: translateY(-120vh) rotate(-5deg);
+    }
+}
+
+/* -------------------- CONFETTI -------------------- */
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 20px;
+    z-index: 100;
+    pointer-events: none;
+    animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* -------------------- PASSWORD SCREEN -------------------- */
+
+.password-card {
+    position: relative;
+    z-index: 10;
+    width: min(520px, 95vw);
+    padding: 45px 30px;
+    text-align: center;
+    background: rgba(255,255,255,.9);
+    border: 5px solid #222;
+    border-radius: 35px;
+    box-shadow: 14px 14px 0 #222;
+    transform: rotate(-1deg);
+}
+
+.password-card h1 {
+    font-family: "Permanent Marker", cursive;
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    line-height: .95;
+    margin-bottom: 15px;
+    color: #ff3b81;
+    text-shadow: 3px 3px 0 #222;
+}
+
+.password-card p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.password-input {
+    width: 100%;
+    padding: 17px;
+    border: 4px solid #222;
+    border-radius: 18px;
+    font-size: 1.5rem;
+    text-align: center;
+    outline: none;
+    background: #fffdf0;
+}
+
+.password-input:focus {
+    box-shadow: 0 0 0 5px rgba(255,59,129,.25);
+}
+
+.enter-btn {
+    margin-top: 18px;
+    padding: 15px 35px;
+    border: 4px solid #222;
+    border-radius: 18px;
+    background: #ffe047;
+    font-size: 1.3rem;
+    font-weight: 800;
+    box-shadow: 6px 6px 0 #222;
+    transition: .15s;
+}
+
+.enter-btn:hover {
+    transform: translate(3px,3px);
+    box-shadow: 3px 3px 0 #222;
+}
+
+.error-message {
+    min-height: 35px;
+    margin-top: 20px;
+    color: #e71950;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.attempt-counter {
+    margin-top: 10px;
+    font-weight: 700;
+}
+
+.progress-container {
+    width: 100%;
+    height: 18px;
+    margin-top: 20px;
+    border: 3px solid #222;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #eee;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff3b81, #ffe047, #54d7ff);
+    transition: width .4s ease;
+}
+
+/* -------------------- RICE SCREEN -------------------- */
+
+.rice-wrapper {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    width: min(800px, 95vw);
+}
+
+.rice-wrapper h1 {
+    font-family: "Permanent Marker", cursive;
+    font-size: clamp(2.5rem, 9vw, 5rem);
+    color: white;
+    text-shadow: 5px 5px 0 #222;
+    transform: rotate(-2deg);
+}
+
+.rice-wrapper p {
+    font-size: 1.35rem;
+    color: white;
+    font-weight: 700;
+    text-shadow: 2px 2px #222;
+    margin: 15px 0 30px;
+}
+
+.rice {
+    position: relative;
+    margin: auto;
+    width: 230px;
+    height: 170px;
+    border: 6px solid #222;
+    border-radius: 50% 50% 45% 45%;
+    background: #fff;
+    box-shadow: 10px 12px 0 #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6rem;
+    user-select: none;
+    transition: transform .1s;
+}
+
+.rice:hover {
+    transform: rotate(2deg) scale(1.03);
+}
+
+.rice:active {
+    transform: scale(.9) rotate(-8deg);
+}
+
+.rice-count {
+    margin-top: 30px;
+    font-size: 2rem;
+    color: white;
+    font-weight: 800;
+    text-shadow: 3px 3px #222;
+}
+
+.rice-hint {
+    margin-top: 10px;
+    color: white;
+    font-size: 1rem;
+}
+
+/* -------------------- VIDEO SCREEN -------------------- */
+
+.video-screen {
+    background:
+        radial-gradient(circle, rgba(255,255,255,.25) 0 4px, transparent 5px),
+        linear-gradient(135deg, #ff4f9a, #8b5cff, #35d8ff);
+    background-size: 45px 45px, 100% 100%;
+}
+
+.video-container {
+    position: relative;
+    z-index: 10;
+    width: min(950px, 95vw);
+    text-align: center;
+}
+
+.video-title {
+    font-family: "Permanent Marker", cursive;
+    color: white;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    text-shadow: 5px 5px 0 #222;
+    margin-bottom: 25px;
+    animation: titleWobble 1.5s infinite alternate;
+}
+
+@keyframes titleWobble {
+    from { transform: rotate(-2deg) scale(1); }
+    to { transform: rotate(2deg) scale(1.04); }
+}
+
+.video-frame {
+    position: relative;
+    padding: 15px;
+    background: white;
+    border: 6px solid #222;
+    border-radius: 30px;
+    box-shadow: 12px 12px 0 #222;
+}
+
+video {
+    display: block;
+    width: 100%;
+    max-height: 65vh;
+    border-radius: 15px;
+    background: #111;
+}
+
+/* -------------------- LETTER SCREEN -------------------- */
+
+.letter-screen {
+    background:
+        linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)),
+        repeating-linear-gradient(
+            0deg,
+            #f7d99d 0px,
+            #f7d99d 30px,
+            #efd08f 31px
+        );
+}
+
+.letter-area {
+    position: relative;
+    z-index: 10;
+    width: min(850px, 95vw);
+    text-align: center;
+}
+
+.letter-area h1 {
+    font-family: "Permanent Marker", cursive;
+    font-size: clamp(2rem, 7vw, 4rem);
+    margin-bottom: 30px;
+    transform: rotate(-2deg);
+}
+
+.scroll {
+    position: relative;
+    width: 100%;
+    height: 95px;
+    background: #d9ad68;
+    border: 5px solid #5b371d;
+    border-radius: 50px;
+    box-shadow: 8px 8px 0 rgba(0,0,0,.25);
+    overflow: hidden;
+    cursor: pointer;
+    transition: height 1.5s ease, border-radius 1s ease;
+}
+
+.scroll::before,
+.scroll::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 115px;
+    top: -15px;
+    border-radius: 50%;
+    background: #c99751;
+    border: 5px solid #5b371d;
+    z-index: 2;
+}
+
+.scroll::before {
+    left: -25px;
+}
+
+.scroll::after {
+    right: -25px;
+}
+
+.scroll.open {
+    height: min(650px, 75vh);
+    border-radius: 10px;
+    overflow-y: auto;
+}
+
+.scroll-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    font-family: "Permanent Marker", cursive;
+    font-size: 1.8rem;
+    color: #4a2c17;
+    transition: opacity .5s;
+}
+
+.scroll.open .scroll-label {
+    opacity: 0;
+}
+
+.letter-content {
+    opacity: 0;
+    padding: 70px 55px;
+    text-align: left;
+    transition: opacity 1s ease 1s;
+    color: #432817;
+}
+
+.scroll.open .letter-content {
+    opacity: 1;
+}
+
+.letter-content h2 {
+    font-family: "Permanent Marker", cursive;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.letter-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+.signature {
+    text-align: right;
+    font-family: "Permanent Marker", cursive;
+    font-size: 1.5rem;
+    margin-top: 35px;
+}
+
+/* -------------------- FINAL -------------------- */
+
+.final-message {
+    margin-top: 25px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.scroll.open + .final-message {
+    opacity: 1;
+}
+
+/* -------------------- CHAOS EFFECTS -------------------- */
+
+.shake {
+    animation: shake .4s;
+}
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-15px) rotate(-2deg); }
+    40% { transform: translateX(15px) rotate(2deg); }
+    60% { transform: translateX(-10px); }
+    80% { transform: translateX(10px); }
+}
+
+.big-pop {
+    animation: pop .6s;
+}
+
+@keyframes pop {
+    0% { transform: scale(.2) rotate(-15deg); opacity: 0; }
+    70% { transform: scale(1.15) rotate(8deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); }
+}
+
+.floating-text {
+    position: fixed;
+    z-index: 999;
+    font-family: "Permanent Marker", cursive;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: textFly 1.5s forwards;
+    text-shadow: 3px 3px white;
+}
+
+@keyframes textFly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(.5) rotate(-10deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -180px) scale(1.4) rotate(15deg);
+    }
+}
+
+.flash {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 1000;
+    pointer-events: none;
+    animation: flash .5s forwards;
+}
+
+@keyframes flash {
+    0% { opacity: .9; }
+    100% { opacity: 0; }
+}
+
+/* -------------------- MOBILE -------------------- */
+
+@media (max-width: 600px) {
+    .password-card {
+        padding: 35px 20px;
+        box-shadow: 8px 8px 0 #222;
+    }
+
+    .password-card h1 {
+        font-size: 2.5rem;
+    }
+
+    .rice {
+        width: 190px;
+        height: 140px;
+        font-size: 4.8rem;
+    }
+
+    .letter-content {
+        padding: 65px 25px;
+    }
+
+    .letter-content p {
+        font-size: 1rem;
+    }
+
+    .video-frame {
+        padding: 8px;
+        border-width: 4px;
+        box-shadow: 7px 7px 0 #222;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- DECORATIONS -->
+<div class="decorations">
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+</div>
+
+<!-- =========================================================
+     SCREEN 1 — PASSWORD
+========================================================= -->
+
+<section id="passwordScreen" class="screen active">
+
+    <div class="password-card" id="passwordCard">
+
+        <h1>WAIT.</h1>
+
+        <p>
+            You weren't supposed to find this yet. 💀
+            <br>
+            Prove you deserve to enter.
+        </p>
+
+        <input
+            id="passwordInput"
+            class="password-input"
+            type="text"
+            inputmode="numeric"
+            maxlength="5"
+            placeholder="DD-MM"
+            autocomplete="off"
+        >
+
+        <button class="enter-btn" id="enterButton">
+            ENTER THE CHAOS
+        </button>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="attempt-counter">
+            Birthday security level:
+            <span id="attemptNumber">0</span> / 15
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="passwordProgress"></div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCREEN 2 — RICE
+========================================================= -->
+
+<section id="riceScreen" class="screen">
+
+    <div class="rice-wrapper">
+
+        <h1>YOU MADE IT.</h1>
+
+        <p>
+            Unfortunately, that was only the beginning.
+            <br>
+            Now click the rice. Don't ask questions.
+        </p>
+
+        <div class="rice" id="riceButton">
+            🍚
+        </div>
+
+        <div class="rice-count">
+            RICE LEVEL: <span id="riceCount">0</span> / 20
+        </div>
+
+        <div class="rice-hint">
+            Yes. You really have to click it 20 times.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCREEN 3 — VIDEO
+========================================================= -->
+
+<section id="videoScreen" class="screen video-screen">
+
+    <div class="video-container">
+
+        <div class="video-title">
+            HAPPY BIRTHDAY!!!
+        </div>
+
+        <div class="video-frame">
+
+            <video
+                id="birthdayVideo"
+                controls
+                playsinline
+                preload="auto"
+            >
+                <source src="birthday-video.mp4" type="video/mp4">
+                Your browser does not support the video element.
+            </video>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCREEN 4 — LETTER
+========================================================= -->
+
+<section id="letterScreen" class="screen letter-screen">
+
+    <div class="letter-area">
+
+        <h1>ONE LAST THING...</h1>
+
+        <div class="scroll" id="scroll">
+
+            <div class="scroll-label">
+                📜 CLICK ME 📜
+            </div>
+
+            <div class="letter-content">
+
+                <h2>Happy Birthday!!</h2>
+
+                <p>
+                    Okay, first of all, congratulations on surviving
+                    whatever the hell this website was.
+                </p>
+
+                <p>
+                    I genuinely hope you have the best birthday ever
+                    and that this year brings you a ridiculous amount
+                    of happiness, good memories, and moments that make
+                    you laugh until your stomach hurts.
+                </p>
+
+                <p>
+                    You're honestly such a great friend, and I'm really
+                    glad you're someone I got to know. I hope you know
+                    that you're appreciated more than you probably realize.
+                </p>
+
+                <p>
+                    Anyway, I'm not going to make this unnecessarily
+                    emotional because we both know that's embarrassing.
+                    💀
+                </p>
+
+                <p>
+                    So just enjoy your day, eat something good,
+                    have fun, and remember that somebody went through
+                    all this chaos just to wish you a happy birthday.
+                </p>
+
+                <p>
+                    Happy birthday again!!
+                    I hope 18-08 becomes one of your favorite days.
+                </p>
+
+                <div class="signature">
+                    — Your friend ❤️
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="final-message">
+            🎉 YOU HAVE OFFICIALLY SURVIVED THE BIRTHDAY WEBSITE. 🎉
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const CORRECT_PASSWORD = "18-08";
+
+const REQUIRED_PASSWORD_PROGRESS = 15;
+
+const REQUIRED_RICE_CLICKS = 20;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const passwordScreen = document.getElementById("passwordScreen");
+const riceScreen = document.getElementById("riceScreen");
+const videoScreen = document.getElementById("videoScreen");
+const letterScreen = document.getElementById("letterScreen");
+
+const passwordInput = document.getElementById("passwordInput");
+const enterButton = document.getElementById("enterButton");
+const passwordCard = document.getElementById("passwordCard");
+
+const errorMessage = document.getElementById("errorMessage");
+const attemptNumber = document.getElementById("attemptNumber");
+const passwordProgress = document.getElementById("passwordProgress");
+
+const riceButton = document.getElementById("riceButton");
+const riceCount = document.getElementById("riceCount");
+
+const birthdayVideo = document.getElementById("birthdayVideo");
+
+const scroll = document.getElementById("scroll");
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let passwordAttempts = 0;
+let riceClicks = 0;
+
+
+/* =========================================================
+   SCREEN SWITCHER
+========================================================= */
+
+function showScreen(screen) {
+
+    document.querySelectorAll(".screen").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    screen.classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+function createConfetti(amount = 100) {
+
+    const colors = [
+        "#ff3b81",
+        "#ffe047",
+        "#54d7ff",
+        "#72e68c",
+        "#a86cff",
+        "#ff8a3d",
+        "#ffffff"
+    ];
+
+    for (let i = 0; i < amount; i++) {
+
+        const piece = document.createElement("div");
+
+        piece.className = "confetti";
+
+        piece.style.left = Math.random() * 100 + "vw";
+
+        piece.style.top = (-20 - Math.random() * 100) + "px";
+
+        piece.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        piece.style.width =
+            (6 + Math.random() * 10) + "px";
+
+        piece.style.height =
+            (10 + Math.random() * 18) + "px";
+
+        piece.style.animationDuration =
+            (2 + Math.random() * 3) + "s";
+
+        piece.style.animationDelay =
+            (Math.random() * 1.5) + "s";
+
+        document.body.appendChild(piece);
+
+        setTimeout(() => {
+            piece.remove();
+        }, 6000);
+    }
+}
+
+
+/* =========================================================
+   FLOATING CHAOS TEXT
+========================================================= */
+
+function floatingText(text, x = window.innerWidth / 2, y = window.innerHeight / 2) {
+
+    const element = document.createElement("div");
+
+    element.className = "floating-text";
+
+    element.textContent = text;
+
+    element.style.left = x + "px";
+    element.style.top = y + "px";
+
+    const colors = [
+        "#ff3b81",
+        "#ffe047",
+        "#54d7ff",
+        "#72e68c",
+        "#a86cff"
+    ];
+
+    element.style.color =
+        colors[Math.floor(Math.random() * colors.length)];
+
+    document.body.appendChild(element);
+
+    setTimeout(() => {
+        element.remove();
+    }, 1600);
+}
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+function flashScreen() {
+
+    const flash = document.createElement("div");
+
+    flash.className = "flash";
+
+    document.body.appendChild(flash);
+
+    setTimeout(() => {
+        flash.remove();
+    }, 500);
+}
+
+
+/* =========================================================
+   PASSWORD SYSTEM
+========================================================= */
+
+function checkPassword() {
+
+    const enteredPassword = passwordInput.value.trim();
+
+    if (enteredPassword === CORRECT_PASSWORD) {
+
+        passwordAttempts++;
+
+        attemptNumber.textContent = passwordAttempts;
+
+        passwordProgress.style.width =
+            (passwordAttempts / REQUIRED_PASSWORD_PROGRESS * 100) + "%";
+
+        passwordInput.value = "";
+
+        errorMessage.textContent =
+            "CORRECT... but you're not done yet. 💀";
+
+        createConfetti(20);
+
+        floatingText(
+            "CORRECT?!",
+            window.innerWidth / 2,
+            window.innerHeight / 2
+        );
+
+        if (passwordAttempts >= REQUIRED_PASSWORD_PROGRESS) {
+
+            flashScreen();
+
+            createConfetti(150);
+
+            setTimeout(() => {
+
+                showScreen(riceScreen);
+
+            }, 900);
+
+        }
+
+    } else {
+
+        passwordAttempts = Math.min(
+            passwordAttempts + 1,
+            REQUIRED_PASSWORD_PROGRESS
+        );
+
+        attemptNumber.textContent = passwordAttempts;
+
+        passwordProgress.style.width =
+            (passwordAttempts / REQUIRED_PASSWORD_PROGRESS * 100) + "%";
+
+        passwordCard.classList.remove("shake");
+
+        void passwordCard.offsetWidth;
+
+        passwordCard.classList.add("shake");
+
+        const messages = [
+            "WRONG PASSWORD 💀",
+            "bro...",
+            "HOW DID YOU GET THAT WRONG 😭",
+            "TRY AGAIN.",
+            "THAT WAS NOT IT.",
+            "NOPE.",
+            "ABSOLUTELY NOT.",
+            "YOU'RE MAKING THIS WORSE.",
+            "PLEASE.",
+            "I BELIEVE IN YOU. SORT OF.",
+            "WRONG 💀",
+            "THE BIRTHDAY IS RIGHT THERE.",
+            "COME ONNNN.",
+            "WHAT ARE YOU DOING 😭",
+            "ONE MORE TRY."
+        ];
+
+        errorMessage.textContent =
+            messages[Math.min(passwordAttempts - 1, messages.length - 1)];
+
+        floatingText(
+            "WRONG!",
+            window.innerWidth / 2,
+            window.innerHeight / 2
+        );
+
+        passwordInput.value = "";
+
+    }
+}
+
+
+/* =========================================================
+   PASSWORD EVENTS
+========================================================= */
+
+enterButton.addEventListener("click", checkPassword);
+
+passwordInput.addEventListener("keydown", event => {
+
+    if (event.key === "Enter") {
+        checkPassword();
+    }
+
+});
+
+
+/* =========================================================
+   RICE SYSTEM
+========================================================= */
+
+riceButton.addEventListener("click", event => {
+
+    riceClicks++;
+
+    riceCount.textContent = riceClicks;
+
+    riceButton.classList.remove("big-pop");
+
+    void riceButton.offsetWidth;
+
+    riceButton.classList.add("big-pop");
+
+    const clickMessages = [
+        "RICE.",
+        "MORE RICE.",
+        "KEEP GOING.",
+        "WHY ARE YOU STILL DOING THIS?",
+        "RICE POWER.",
+        "CLICK CLICK CLICK.",
+        "THIS IS IMPORTANT.",
+        "VERY IMPORTANT.",
+        "DO NOT QUESTION THE RICE.",
+        "HALFWAY.",
+        "THE RICE DEMANDS MORE.",
+        "KEEP CLICKING.",
+        "ALMOST THERE.",
+        "SO CLOSE.",
+        "MORE.",
+        "MORE.",
+        "MORE.",
+        "ALMOST.",
+        "ONE MORE.",
+        "CHAOS."
+    ];
+
+    floatingText(
+        clickMessages[Math.min(riceClicks - 1, clickMessages.length - 1)],
+        event.clientX,
+        event.clientY
+    );
+
+    if (riceClicks % 5 === 0) {
+        createConfetti(30);
+    }
+
+    if (riceClicks >= REQUIRED_RICE_CLICKS) {
+
+        flashScreen();
+
+        createConfetti(250);
+
+        setTimeout(() => {
+
+            showScreen(videoScreen);
+
+            birthdayVideo.play().catch(() => {});
+
+        }, 700);
+
+    }
+
+});
+
+
+/* =========================================================
+   VIDEO FINISHED
+========================================================= */
+
+birthdayVideo.addEventListener("ended", () => {
+
+    createConfetti(200);
+
+    flashScreen();
+
+    setTimeout(() => {
+
+        showScreen(letterScreen);
+
+    }, 700);
+
+});
+
+
+/* =========================================================
+   IF VIDEO CANNOT AUTOPLAY
+========================================================= */
+
+birthdayVideo.addEventListener("error", () => {
+
+    floatingText(
+        "VIDEO READY!",
+        window.innerWidth / 2,
+        window.innerHeight / 2
+    );
+
+});
+
+
+/* =========================================================
+   LETTER / SCROLL
+========================================================= */
+
+scroll.addEventListener("click", () => {
+
+    if (!scroll.classList.contains("open")) {
+
+        scroll.classList.add("open");
+
+        createConfetti(180);
+
+        setTimeout(() => {
+            floatingText(
+                "HAPPY BIRTHDAY ❤️",
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+        }, 800);
+
+    }
+
+});
+
+
+/* =========================================================
+   RANDOM BACKGROUND CHAOS
+========================================================= */
+
+setInterval(() => {
+
+    if (document.querySelector(".screen.active") === riceScreen) {
+
+        if (Math.random() < .35) {
+
+            floatingText(
+                ["🍚", "BIRTHDAY", "CHAOS", "RICE", "😭", "CLICK ME"]
+                [Math.floor(Math.random() * 6)],
+                Math.random() * window.innerWidth,
+                Math.random() * window.innerHeight
+            );
+
+        }
+
+    }
+
+}, 1200);
+
+
+/* =========================================================
+   PERIODIC VIDEO CONFETTI
+========================================================= */
+
+setInterval(() => {
+
+    if (videoScreen.classList.contains("active")) {
+        createConfetti(25);
+    }
+
+}, 1800);
+
+
+/* =========================================================
+   INITIAL EFFECT
+========================================================= */
+
+setTimeout(() => {
+    createConfetti(35);
+}, 500);
+
+</script>
+
+</body>
+</html>
