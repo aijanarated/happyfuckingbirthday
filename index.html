@@ -621,7 +621,7 @@ video {
             type="text"
             inputmode="numeric"
             maxlength="5"
-            placeholder="DD-MM"
+            placeholder="DDMM"
             autocomplete="off"
         >
 
@@ -787,11 +787,11 @@ video {
    SETTINGS
 ========================================================= */
 
-const CORRECT_PASSWORD = "18-08";
+const CORRECT_PASSWORD = "1808";
 
-const REQUIRED_PASSWORD_PROGRESS = 15;
+const REQUIRED_PASSWORD_PROGRESS = 18;
 
-const REQUIRED_RICE_CLICKS = 20;
+const REQUIRED_RICE_CLICKS = 1808;
 
 
 /* =========================================================
@@ -978,7 +978,7 @@ function checkPassword() {
             window.innerHeight / 2
         );
 
-        if (passwordAttempts >= REQUIRED_PASSWORD_PROGRESS) {
+        if (passwordAttemptsTrue >= REQUIRED_PASSWORD_PROGRESS) {
 
             flashScreen();
 
